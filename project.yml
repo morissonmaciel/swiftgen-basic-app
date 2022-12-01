@@ -1,4 +1,8 @@
 name: iOSApp
+packages:
+    ViewInspector:
+        url: https://github.com/nalexn/ViewInspector
+        from: "0.9.2"
 targets:
     iOSApp:
         type: application
@@ -18,5 +22,9 @@ targets:
         platform: iOS
         deploymentTarget: "13.0"
         sources: [iOSAppTests]
+        settings:
+            base:
+                INFOPLIST_FILE: iOSAppTests/Info.plist
         dependencies:
             - target: iOSApp
+            - package: ViewInspector
