@@ -12,7 +12,7 @@ targets:
                 PRODUCT_BUNDLE_IDENTIFIER: com.codename.ios.app
         scheme:
             testTargets:
-                - PaperedTests
+                - iOSAppTests
     iOSAppTests:
         type: bundle.unit-test
         platform: iOS
