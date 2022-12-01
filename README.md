@@ -17,6 +17,7 @@ To start using this project as template you need at least this three pre-requisi
 3. Enter your project folder using `cd ./MyIOSApp`
 4. Open the `project.yml` file using either one of following commands: `nano project.yml` or `open project.yml`
 5. Replace `iOSApp` text entries with `MyIOSApp` to futher proper generate targets for your app
+6. Remove the `.git` folder, preventing any source control conflict: `rm -rf .git`
 
 Obs: the final results expected for the file would be...
 
@@ -53,8 +54,8 @@ targets:
             - package: ViewInspector
 ```
 
-6. Run `xcodegen` command and wait for project generation
-7. Open your project using `open MyIOSApp.xcodeproj/`
+7. Run `xcodegen` command and wait for project generation
+8. Open your project using `open MyIOSApp.xcodeproj/`
 
 ## Remarks
 
