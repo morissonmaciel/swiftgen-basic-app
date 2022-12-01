@@ -22,6 +22,10 @@ Obs: the final results expected for the file would be...
 
 ``` yml
 name: MyIOSApp
+packages:
+    ViewInspector:
+        url: https://github.com/nalexn/ViewInspector
+        from: "0.9.2"
 targets:
     MyIOSApp:
         type: application
@@ -41,8 +45,12 @@ targets:
         platform: iOS
         deploymentTarget: "13.0"
         sources: [MyIOSAppTests]
+        settings:
+            base:
+                INFOPLIST_FILE: MyIOSAppTests/Info.plist
         dependencies:
             - target: MyIOSApp
+            - package: ViewInspector
 ```
 
 6. Run `xcodegen` command and wait for project generation
