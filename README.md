@@ -54,7 +54,7 @@ targets:
 ```
 
 6. Run `xcodegen` command and wait for project generation
-7. Open your project using `open MyIOSApp.xcproject/`
+7. Open your project using `open MyIOSApp.xcodeproj/`
 
 ## Remarks
 
