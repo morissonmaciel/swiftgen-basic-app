@@ -8,7 +8,7 @@ targets:
         type: application
         platform: iOS
         deploymentTarget: "13.0"
-        sources: [iOSApp]
+        sources: [App]
         settings:
             base:
                 INFOPLIST_FILE: iOSApp/Info.plist
@@ -21,7 +21,7 @@ targets:
         type: bundle.unit-test
         platform: iOS
         deploymentTarget: "13.0"
-        sources: [iOSAppTests]
+        sources: [AppTests]
         settings:
             base:
                 INFOPLIST_FILE: iOSAppTests/Info.plist
