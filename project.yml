@@ -11,8 +11,8 @@ targets:
         sources: [App]
         settings:
             base:
-                INFOPLIST_FILE: iOSApp/Info.plist
-                ENTITLEMENTS_FILE: iOSApp/App.entitlements
+                INFOPLIST_FILE: App/Info.plist
+                ENTITLEMENTS_FILE: App/App.entitlements
                 PRODUCT_BUNDLE_IDENTIFIER: com.codename.ios.app
         scheme:
             testTargets:
@@ -24,7 +24,7 @@ targets:
         sources: [AppTests]
         settings:
             base:
-                INFOPLIST_FILE: iOSAppTests/Info.plist
+                INFOPLIST_FILE: AppTests/Info.plist
         dependencies:
             - target: iOSApp
             - package: ViewInspector
