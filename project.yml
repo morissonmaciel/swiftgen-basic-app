@@ -1,0 +1,22 @@
+name: iOSApp
+targets:
+        iOSAppTests:
+        type: application
+        platform: iOS
+        deploymentTarget: "13.0"
+        sources: [iOSApp]
+        settings:
+            base:
+                INFOPLIST_FILE: iOSApp/Info.plist
+                ENTITLEMENTS_FILE: iOSApp/App.entitlements
+                PRODUCT_BUNDLE_IDENTIFIER: com.codename.ios.app
+        scheme:
+            testTargets:
+                - PaperedTests
+    iOSAppTests:
+        type: bundle.unit-test
+        platform: iOS
+        deploymentTarget: "13.0"
+        sources: [iOSAppTests]
+        dependencies:
+            - target: iOSApp
