@@ -1,10 +1,10 @@
-name: iOSApp
+name: PaperedApp
 packages:
     ViewInspector:
         url: https://github.com/nalexn/ViewInspector
-        from: "0.9.2"
+        version: "0.9.1"
 targets:
-    iOSApp:
+    PaperedApp:
         type: application
         platform: iOS
         deploymentTarget: "13.0"
@@ -16,8 +16,9 @@ targets:
                 PRODUCT_BUNDLE_IDENTIFIER: com.codename.ios.app
         scheme:
             testTargets:
-                - iOSAppTests
-    iOSAppTests:
+                - PaperedAppTests
+            gatherCoverageData: true
+    PaperedAppTests:
         type: bundle.unit-test
         platform: iOS
         deploymentTarget: "13.0"
@@ -26,5 +27,5 @@ targets:
             base:
                 INFOPLIST_FILE: AppTests/Info.plist
         dependencies:
-            - target: iOSApp
+            - target: PaperedApp
             - package: ViewInspector

@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UISceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: RootScene())
+            window.rootViewController = RootScene()
             self.window = window
             // this is the key window to look at our app through
             // xcode knows the sceneDelegate as first, because its defined in the info.plist
