@@ -10,6 +10,7 @@ import SafariServices
 
 final class HeadlinesViewController: UITableViewController {
     private var searchView: UISearchBar!
+    private var refreshView: UIRefreshControl!
     private var newsAPIViewModel = NewsAPIViewModel()
     private var bookmarkViewModel = FavoriteViewModel.shared
     
@@ -39,12 +40,18 @@ final class HeadlinesViewController: UITableViewController {
     }
     
     func prepareTableView() {
+        refreshView = UIRefreshControl()
+        refreshView.tintColor = .secondaryLabel
+        refreshView.addTarget(self, action: #selector(updateContents), for: .valueChanged)
+        
+        tableView.refreshControl = refreshView
         tableView.register(ArticleCompactCell.self, forCellReuseIdentifier: ArticleCompactCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableHeaderView = searchView
     }
     
+    @objc
     func updateContents() {
         newsAPIViewModel.fetchFeatured(category: category) { error in
             if let error = error {
@@ -54,7 +61,11 @@ final class HeadlinesViewController: UITableViewController {
                 self.present(alertVC, animated: true)
                 return
             }
-            self.tableView.reloadData()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                self.tableView.reloadData()
+                self.refreshView.endRefreshing()
+            }
         }
     }
     
@@ -90,6 +101,22 @@ final class HeadlinesViewController: UITableViewController {
         let item = newsAPIViewModel.items[indexPath.row]
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let shareClipAction = UIAction(title: "Share Clip", image: UIImage(systemName: "rectangle.and.paperclip")) { _ in
+                Task {
+                    guard let clipImage = tableView.cellForRow(at: indexPath)?.createClip() else { return }
+                    let vc = UIActivityViewController(activityItems: [clipImage], applicationActivities: [])
+                    self.present(vc, animated: true)
+                }
+            }
+            
+            let shareURLAction = UIAction(title: "Share Source", image: UIImage(systemName: "square.and.arrow.up")) { _ in
+                Task {
+                    guard let sourceURL = URL(string: item.url) else { return }
+                    let vc = UIActivityViewController(activityItems: [sourceURL], applicationActivities: [])
+                    self.present(vc, animated: true)
+                }
+            }
+            
             let bookmarkAction = UIAction(title: "Favorite", image: UIImage(systemName: "heart")) { _ in
                 self.bookmarkViewModel.favorite(item)
             }
@@ -99,6 +126,8 @@ final class HeadlinesViewController: UITableViewController {
             }
             
             var actions: [UIAction] = []
+            actions.append(shareClipAction)
+            actions.append(shareURLAction)
             actions.append(self.bookmarkViewModel.isFavorited(id: item.id) ? removeBookmarkAction : bookmarkAction)
             
             return UIMenu(children: actions)
