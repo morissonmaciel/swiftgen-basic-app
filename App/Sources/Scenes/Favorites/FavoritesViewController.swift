@@ -23,7 +23,7 @@ final class FavoritesViewController: UITableViewController {
     }
     
     private func prepareTableView() {
-        tableView.register(ArticleCompactCell.self, forCellReuseIdentifier: ArticleCompactCell.identifier)
+        tableView.register(CompactArticleCell.self, forCellReuseIdentifier: CompactArticleCell.identifier)
     }
     
     func updateContents() {
@@ -37,7 +37,7 @@ extension FavoritesViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ArticleCompactCell.identifier, for: indexPath) as? ArticleCompactCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CompactArticleCell.identifier, for: indexPath) as? CompactArticleCell else {
             return UITableViewCell()
         }
         
@@ -63,31 +63,8 @@ extension FavoritesViewController {
     }
     
     override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        let item = viewModel.favorites[indexPath.row]
-        
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let shareClipAction = UIAction(title: "Share Clip", image: UIImage(systemName: "rectangle.and.paperclip")) { _ in
-                Task {
-                    guard let clipImage = tableView.cellForRow(at: indexPath)?.createClip() else { return }
-                    let vc = UIActivityViewController(activityItems: [clipImage], applicationActivities: [])
-                    self.present(vc, animated: true)
-                }
-            }
-            
-            let shareURLAction = UIAction(title: "Share Source", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-                Task {
-                    guard let sourceURL = URL(string: item.externalURL ?? "") else { return }
-                    let vc = UIActivityViewController(activityItems: [sourceURL], applicationActivities: [])
-                    self.present(vc, animated: true)
-                }
-            }
-            
-            let removeBookmarkAction = UIAction(title: "Unfavorite", image: UIImage(systemName: "heart.slash"), attributes: [.destructive]) { _ in
-                self.viewModel.unfavorite(id: item.id)
-                self.updateContents()
-            }
-            
-            return UIMenu(children: [shareClipAction, shareURLAction, removeBookmarkAction])
-        }
+        let favorite = viewModel.favorites[indexPath.row]
+        let contextOptions = ContextOptions(itemID: favorite.id, title: favorite.title, publishedAt: favorite.bookmarkedAt, externalURL: favorite.externalURL!, previewImage: favorite.previewImage)
+        return contextOptions.buildContextualMenu(navigationController: navigationController, favoriteData: favorite)
     }
 }

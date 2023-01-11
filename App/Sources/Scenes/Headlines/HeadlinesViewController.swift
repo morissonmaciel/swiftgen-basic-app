@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import SafariServices
 
 final class HeadlinesViewController: UITableViewController {
@@ -45,7 +46,7 @@ final class HeadlinesViewController: UITableViewController {
         refreshView.addTarget(self, action: #selector(updateContents), for: .valueChanged)
         
         tableView.refreshControl = refreshView
-        tableView.register(ArticleCompactCell.self, forCellReuseIdentifier: ArticleCompactCell.identifier)
+        tableView.register(CompactArticleCell.self, forCellReuseIdentifier: CompactArticleCell.identifier)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableHeaderView = searchView
@@ -74,7 +75,7 @@ final class HeadlinesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ArticleCompactCell.identifier, for: indexPath) as? ArticleCompactCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CompactArticleCell.identifier, for: indexPath) as? CompactArticleCell else {
             return UITableViewCell()
         }
         
@@ -99,38 +100,7 @@ final class HeadlinesViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         let item = newsAPIViewModel.items[indexPath.row]
-        
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let shareClipAction = UIAction(title: "Share Clip", image: UIImage(systemName: "rectangle.and.paperclip")) { _ in
-                Task {
-                    guard let clipImage = tableView.cellForRow(at: indexPath)?.createClip() else { return }
-                    let vc = UIActivityViewController(activityItems: [clipImage], applicationActivities: [])
-                    self.present(vc, animated: true)
-                }
-            }
-            
-            let shareURLAction = UIAction(title: "Share Source", image: UIImage(systemName: "square.and.arrow.up")) { _ in
-                Task {
-                    guard let sourceURL = URL(string: item.url) else { return }
-                    let vc = UIActivityViewController(activityItems: [sourceURL], applicationActivities: [])
-                    self.present(vc, animated: true)
-                }
-            }
-            
-            let bookmarkAction = UIAction(title: "Favorite", image: UIImage(systemName: "heart")) { _ in
-                self.bookmarkViewModel.favorite(item)
-            }
-            
-            let removeBookmarkAction = UIAction(title: "Unfavorite", image: UIImage(systemName: "heart.slash"), attributes: [.destructive]) { _ in
-                self.bookmarkViewModel.unfavorite(id: item.id)
-            }
-            
-            var actions: [UIAction] = []
-            actions.append(shareClipAction)
-            actions.append(shareURLAction)
-            actions.append(self.bookmarkViewModel.isFavorited(id: item.id) ? removeBookmarkAction : bookmarkAction)
-            
-            return UIMenu(children: actions)
-        }
+        let contextOptions = ContextOptions(itemID: item.id, title: item.title, publishedAt: item.publishedAt, externalURL: item.url, previewImage: item.urlToImage)
+        return contextOptions.buildContextualMenu(navigationController: navigationController, favoriteData: Favorite.fromArticle(article: item))
     }
 }

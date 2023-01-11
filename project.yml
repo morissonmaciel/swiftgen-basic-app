@@ -3,6 +3,9 @@ packages:
     ViewInspector:
         url: https://github.com/nalexn/ViewInspector
         version: "0.9.1"
+    SwiftSoup:
+        url: https://github.com/scinfu/SwiftSoup
+        version: "2.5.3"
 targets:
     PaperedApp:
         type: application
@@ -18,6 +21,8 @@ targets:
             testTargets:
                 - PaperedAppTests
             gatherCoverageData: true
+        dependencies:
+            - package: SwiftSoup
     PaperedAppTests:
         type: bundle.unit-test
         platform: iOS
@@ -26,6 +31,7 @@ targets:
         settings:
             base:
                 INFOPLIST_FILE: AppTests/Info.plist
+                ENABLE_TESTING_SEARCH_PATHS: YES
         dependencies:
             - target: PaperedApp
             - package: ViewInspector

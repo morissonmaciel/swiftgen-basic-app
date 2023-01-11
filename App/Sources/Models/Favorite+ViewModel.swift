@@ -30,19 +30,8 @@ final class FavoriteViewModel {
         favorites = items
     }
     
-    func favorite(_ article: NewsAPIArticle) {
-        guard let data = try? JSONEncoder().encode(article) else {
-            return
-        }
-        
-        let bookmark = Favorite(id: article.id,
-                                title: article.title,
-                                bookmarkedAt: Date().toISO8601String(),
-                                type: .newsAPI,
-                                previewImage: article.urlToImage,
-                                externalURL: article.url,
-                                articleData: data)
-        favorites.insert(bookmark, at: 0)
+    func favorite(_ item: Favorite) {
+        favorites.insert(item, at: 0)
         flushData()
     }
     

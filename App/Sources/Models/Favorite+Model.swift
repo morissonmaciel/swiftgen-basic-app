@@ -21,3 +21,16 @@ struct Favorite: Codable {
     let articleData: Data
 }
 
+extension Favorite {
+    static func fromArticle(article: NewsAPIArticle) -> Favorite? {
+        guard let data = try? JSONEncoder().encode(article) else { return nil }
+        
+        return Favorite(id: article.id,
+                        title: article.title,
+                        bookmarkedAt: Date().toISO8601String(),
+                        type: .newsAPI,
+                        previewImage: article.urlToImage,
+                        externalURL: article.url,
+                        articleData: data)
+    }
+}

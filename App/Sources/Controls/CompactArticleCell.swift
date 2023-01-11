@@ -1,5 +1,5 @@
 //
-//  ArticleCompactCell.swift
+//  CompactArticleCell.swift
 //  PaperedApp
 //
 //  Created by Morisson Marcel on 09/01/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ArticleCompactCell: UITableViewCell {
+final class CompactArticleCell: UITableViewCell {
     static let identifier = "FeaturedCell"
     
     var previewImage: UIImageView!
