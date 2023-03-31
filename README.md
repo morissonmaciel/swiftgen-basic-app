@@ -2,7 +2,7 @@
 
 A simple and easy understanding structural iOS project using SwiftUI and Scene Delegate to handle scenes.
 
-<img width="1422" alt="image" src="https://user-images.githubusercontent.com/11509104/217132334-82359899-f3a7-460a-ba0a-a2310f33e04b.png">
+![pika-1680288026638-1x](https://user-images.githubusercontent.com/11509104/229203416-5ff5471e-d72f-4bc4-aef9-2198d677f805.png)
 
 ## Pre-requisites
 
