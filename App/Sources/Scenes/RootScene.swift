@@ -10,7 +10,7 @@ import SwiftUI
 struct RootScene: View {
     var body: some View {
         VStack {
-            Image("swiftui_icon")
+            Image("swiftui_iconex")
             
             Text("Hello, World!")
                 .font(.title)

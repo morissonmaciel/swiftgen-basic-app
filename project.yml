@@ -17,22 +17,22 @@ targets:
                 INFOPLIST_FILE: App/Info.plist
                 ENTITLEMENTS_FILE: App/App.entitlements
                 PRODUCT_BUNDLE_IDENTIFIER: com.codename.ios.basic.app
-        # scheme:
-        #     testTargets:
-        #         - BeagleAppTests
-        #     gatherCoverageData: true
-    # BeagleAppTests:
-    #     type: bundle.unit-test
-    #     platform: iOS
-    #     deploymentTarget: "13.0"
-    #     sources:
-    #         - path: AppTests
-    #           excludes:
-    #             - ReferenceImages/**
-    #     settings:
-    #         base:
-    #             INFOPLIST_FILE: AppTests/Info.plist
-    #     dependencies:
-    #         - target: BeagleApp
-    #         - package: ViewInspector
-    #         - package: SnapshotTesting
+        scheme:
+            testTargets:
+                - BasicAppTests
+            gatherCoverageData: true
+    BasicAppTests:
+        type: bundle.unit-test
+        platform: iOS
+        deploymentTarget: "14.0"
+        sources:
+            - path: AppTests
+              excludes:
+                - ReferenceImages/**
+        settings:
+            base:
+                INFOPLIST_FILE: AppTests/Info.plist
+        dependencies:
+            - target: BasicApp
+            - package: ViewInspector
+            - package: SnapshotTesting
